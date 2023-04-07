@@ -74,4 +74,39 @@ async def create_user(
     )
     return new_user
 
-        
+async def update_user(
+        id : int, user_model: user_request_model.UpdateUser,
+        session: Session
+):
+    user_data = await user_repository.get_user_by_id(session = session, id = id)
+    if user_data:
+        user_data = user_model.dict(exclude_unset=True)
+        for key, value in user_data.items():
+            if value:
+                if hasattr(user_data, str(key)):
+                    setattr(user_data, key, value)
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail = "No user with the id found"
+        )
+    user_data = await user_repository.update_user(session=session, user_data=user_data)
+    return user_data
+
+async def delete_user_by_id(
+        id: int, 
+        session: Session
+):
+    user_data = await user_repository.get_user_by_id(
+        id = id, session=session
+    )
+    if user_data:
+        return await user_repository.delete_user(
+            user_data=user_data, session=session
+        )
+    else:
+        raise HTTPException(
+            status_code = 400,
+            detail = "No user data found by the provided id"
+        )
+    return user_data

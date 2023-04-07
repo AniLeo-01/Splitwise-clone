@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.future import select
 from pydantic import BaseModel
-from typing import Optional
 from app.web.user.dao import user_model
 from app.web.user.dto import user_request_model
 
@@ -42,9 +41,9 @@ async def update_user(
     return user_data
 
 async def delete_user(
-        session: Session, id: int
+        session: Session, user_data: user_model.User
 ):
-    user_data = await get_user_by_id(session=session, id=id)
+    
     await session.delete(user_data)
     await session.commit()
     return user_data
