@@ -1,0 +1,71 @@
+Splitwise Database Schema:
+
+User:
++ id (PK) : int
++ name : str
++ email : str
+
+Group:
++ id (PK) : int
++ name : str
++ type : Enums
+
+Group_members:
++ group_id (FK): Group.id
++ user_id (FK): User.id 
+
+Expense:
++ id (PK) : int
++ description: str
++ total_expense: float
++ split_type: Enums(SplitType)
++ group_id (FK) : Group.id
+
+EqualSplit:
++ user_id (FK) : Group_members.user_id
++ is_paying: bool
++ split_amount: float
+
+UnequalSplit:
++ user_id (FK): Group_members.user_id
++ split_amount: float
++ remaining_expense: float
+
+PercentSplit:
++ user_id (FK): Group_members.user_id
++ split_percent: float
++ split_amount: float
++ remaining_percent: float
+
+AdjustmentSplit:
++ user_id (FK): Group_members.user_id
++ split_adjustment: float
++ split_amount: float
++ remaining_adjustment: float
+
+Enums:
+class SplitType(str, Enum):
+	EqualSplit = "Equal Split"
+	UnequalSplit = "Unequal Split"
+	PercentSplit = "Percentage Split"
+	AdjustmentSplit = "Adjustment Split"
+
+Endpoints:
+1. GET - /expense/:id
+2. POST - /expense - creates an expense
+3. GET /group/:id
+4. POST /group
+5. GET /group/expenses - list all expense for a group
+6. POST /user
+7. GET /user/:id
+8. GET /user/expenses/id - list all expenses for a user id
+
+SQL Queries:
+1. select * from Expense where request.id = Expense.id
+2. insert into Expense values (request.desc, request.total_exp, request.split_type, request.group_id)
+3. select * from Group where request.id = Group.id
+4. insert into Group values (request.name, request.type)
+5. select * from Expense where request.group_id = Expense.group_id
+6. insert into User values (name, email)
+7. select * from User where request.id = User.id
+8. select * from Expense JOIN Group_members ON Expense.group_id = Group_members.group_id JOIN User on User.id = Group_members.user_id where user.id = request.id
