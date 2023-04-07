@@ -26,4 +26,10 @@ class UpdateUser(BaseModel):
         orm_mode = True
 
 class UserSearchCriteria(BaseModel):
-    pass
+    id: Optional[int]
+    name: Optional[str]
+    email: Optional[str]
+    mobile_number: Optional[str]
+    
+    class Config:
+        orm_mode = True
