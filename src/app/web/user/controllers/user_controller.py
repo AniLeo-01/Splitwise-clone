@@ -22,3 +22,11 @@ async def get_user_by_search_criteria(search_criteria: user_request_model.UserSe
 async def get_user_by_id(id: int, session: Session = Depends(get_session)):
     user_data = await user_services.get_user_by_id(id = id, session=session)
     return user_data
+
+@router.post("", status_code=200)
+async def create(user: user_request_model.CreateUser,
+                 session: Session = Depends(get_session)):
+    user_data = await user_services.create_user(
+        request_model_data = user, session=session
+    )
+    return user_data

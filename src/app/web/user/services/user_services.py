@@ -65,4 +65,13 @@ async def get_user_by_id(
         )
     return user_data
 
+async def create_user(
+        request_model_data: user_request_model.CreateUser,
+        session: Session
+):
+    new_user = await user_repository.create_user(
+        session=session, user_data=request_model_data
+    )
+    return new_user
+
         
