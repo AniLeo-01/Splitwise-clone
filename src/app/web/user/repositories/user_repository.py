@@ -45,6 +45,6 @@ async def delete_user(
         session: Session, id: int
 ):
     user_data = await get_user_by_id(session=session, id=id)
-    await session.delete(user)
+    await session.delete(user_data)
     await session.commit()
     return user_data
