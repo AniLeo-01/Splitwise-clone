@@ -1,12 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy import Session
 from app.db import get_session
 
 
-from app.web.expense.controllers import expense_controller
-from app.web.expense.dao import expense_controller
-from app.web.expense.dto import expense_controller
-from app.web.expense.services import expense_controller
 from app.web.user.dto import user_request_model
 from app.web.user.services import user_services
 
