@@ -4,13 +4,14 @@ User:
 + id (PK) : int
 + name : str
 + email : str
-
+[implemented]
 Group:
 + id (PK) : int
 + name : str
 + type : Enums
-
+[implemented]
 Group_members:
++ id (PK): int
 + group_id (FK): Group.id
 + user_id (FK): User.id 
 

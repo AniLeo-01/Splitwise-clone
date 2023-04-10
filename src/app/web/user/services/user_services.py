@@ -3,7 +3,6 @@ from fastapi import HTTPException
 from ..dao import user_model
 from ..dto import user_request_model
 from ..repositories import user_repository
-from ..dao import user_model
 from sqlalchemy.future import select
 
 
@@ -38,7 +37,7 @@ async def get_user_by_search_criteria(
             status_code=400,
             detail="Enter a valid search criteria"
         )
-    query = get_user_search_criteria_query(search_criteria=search_criteria,
+    query = await get_user_search_criteria_query(search_criteria=search_criteria,
                                            session=session)
     user_data = await user_repository.get_user_by_search_criteria(
         query_statement=query, session=session
@@ -69,6 +68,11 @@ async def create_user(
         request_model_data: user_request_model.CreateUser,
         session: Session
 ):
+    if request_model_data is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Enter a valid user data"
+        )
     new_user = await user_repository.create_user(
         session=session, user_data=request_model_data
     )
@@ -101,7 +105,7 @@ async def delete_user_by_id(
         id = id, session=session
     )
     if user_data:
-        return await user_repository.delete_user(
+        user_data = await user_repository.delete_user(
             user_data=user_data, session=session
         )
     else:

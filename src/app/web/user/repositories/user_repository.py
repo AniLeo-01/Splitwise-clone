@@ -20,7 +20,7 @@ async def get_user_by_id(
         id == user_model.User.id
     )
     execute_query = session.execute(query_statement)
-    response = execute_query.scalars().all()
+    response = execute_query.scalars().first()
     return response
 
 async def create_user(
@@ -33,7 +33,7 @@ async def create_user(
     return new_user
 
 async def update_user(
-        session: Session, user_data = user_model.User
+        session: Session, user_data: user_request_model.UpdateUser
 ):
     session.add(user_data)
     await session.commit()
