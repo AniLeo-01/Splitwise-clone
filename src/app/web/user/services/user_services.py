@@ -68,6 +68,11 @@ async def create_user(
         request_model_data: user_request_model.CreateUser,
         session: Session
 ):
+    if request_model_data is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Enter a valid user data"
+        )
     new_user = await user_repository.create_user(
         session=session, user_data=request_model_data
     )
