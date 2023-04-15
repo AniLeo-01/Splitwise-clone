@@ -47,3 +47,13 @@ async def delete_group_members(
     await session.delete(group_members_data)
     await session.commit()
     return group_members_data
+
+async def get_group_member_count_by_group_id(
+        session: Session, group_id: int
+):
+    query_statement = select(group_members_model.GroupMembers).where(
+        group_id == group_members_model.GroupMembers.group_id
+    )
+    result = await session.execute(query_statement)
+    group_members_data = result.scalars().all()
+    return len(group_members_data)

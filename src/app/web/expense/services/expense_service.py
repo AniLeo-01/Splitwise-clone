@@ -61,9 +61,15 @@ async def get_expense_by_id(
     else:
         raise HTTPException(
             status_code=400,
+            detail = "Enter a valid expense split type id!"
+        )
+    if expense_data:
+        return expense_data
+    else:
+        raise HTTPException(
+            status_code=400,
             detail = "No expense found!"
         )
-    return expense_data
 
 async def create_expense(
         request_model_data: expense_request_model.CreateExpense,

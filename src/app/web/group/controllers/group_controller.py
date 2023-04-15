@@ -26,7 +26,7 @@ async def create(group: group_request_model.CreateGroup,
     )
     return group_data
 
-@router.patch("/{id}", status_code=200)
+@router.put("/{id}", status_code=200)
 async def update(id: int, group_model: group_request_model.UpdateGroup,
                  session: Session = Depends(get_session)):
     group_data = await group_services.update_group(

@@ -27,9 +27,15 @@ async def get_group_by_id(id: int,
     else:
         raise HTTPException(
             status_code=400,
-            detail="id not provided"
+            detail="group id not provided"
             )
-    return group_data
+    if group_data:
+        return group_data
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail = "No group found!"
+        )
 
 async def get_group_by_search_criteria(search_criteria: group_request_model.GroupSearchCriteria, session: Session):
     if search_criteria is None:
@@ -52,6 +58,11 @@ async def create_group(request_model_data: group_request_model.CreateGroup, sess
     return group_data
 
 async def update_group(id: int, group_model: group_request_model.UpdateGroup, session: Session):
+    if id is None or group_model is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Group id or group data not provided"
+        )
     group_data = await group_repository.get_group_by_id(
         id = id, session = session
     )

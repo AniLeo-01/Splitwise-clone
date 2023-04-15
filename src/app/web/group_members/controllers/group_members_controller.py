@@ -30,7 +30,7 @@ async def create(
     )
     return group_members_data
 
-@router.patch("/{id}", status_code=200)
+@router.put("/{id}", status_code=200)
 async def update(
     id: int, group_members_model: group_members_request_model.UpdateGroupMembers,
     session: Session = Depends(get_session)

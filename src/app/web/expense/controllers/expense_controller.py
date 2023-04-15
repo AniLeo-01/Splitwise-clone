@@ -9,7 +9,7 @@ router = APIRouter()
 @router.get("", status_code=200)
 async def get_expense_by_search_criteria(
     search_criteria: expense_request_model.ExpenseSearchRequestModel,
-    session: Session = Depends(get_session),
+    session: Session = Depends(get_session)
 ):
     expense_data = await expense_service.get_expense_by_search_criteria(
         search_criteria=search_criteria, session=session
@@ -35,7 +35,7 @@ async def create(
     )
     return expense_data
 
-@router.patch("/{id}", status_code=200)
+@router.put("/{id}", status_code=200)
 async def update(
     id: int,
     expense_model: expense_request_model.UpdateExpense,

@@ -27,7 +27,7 @@ async def create(user: user_request_model.CreateUser,
     )
     return user_data
 
-@router.patch("/{id}", status_code=200)
+@router.put("/{id}", status_code=200)
 async def update(id: int, user_model: user_request_model.UpdateUser,
                  session: Session = Depends(get_session)):
     user_data = await user_services.update_user(

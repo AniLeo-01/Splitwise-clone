@@ -44,6 +44,14 @@ AdjustmentSplit:
 + split_amount: float
 + remaining_adjustment: float
 
+SplitType:
++ id: int
++ expense_id (FK): Expense.id
++ user_id (FK): Group_members.user_id
++ split_amount: float
++ remaining_amount: float
++ split_type: Enums(SplitType)
+
 Enums:
 class SplitType(str, Enum):
 	EqualSplit = "Equal Split"

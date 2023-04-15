@@ -16,7 +16,13 @@ async def get_all_group_members(session: Session):
         )
     
 async def get_group_members_by_id(id: int, session: Session):
-    group_members_data = await group_members_repository.get_group_members_by_id(id=id, session=session)
+    
+    if id:
+        group_members_data = await group_members_repository.get_group_members_by_id(id=id, session=session)
+    else:
+        raise HTTPException(
+            status_code=400, detail="Group members id not provided"
+        )
     if group_members_data:
         return group_members_data
     else:
@@ -63,3 +69,16 @@ async def delete_group_members_by_id(id: int, session: Session):
             detail="No group members with the id found"
         )
     return group_members_data
+
+async def get_group_member_count_by_group_id(
+        session: Session, group_id: int
+):
+    group_members_count = await group_members_repository.get_group_member_count_by_group_id(
+        session=session, group_id=group_id
+    )
+    if group_members_count:
+        return group_members_count
+    else:
+        raise HTTPException(
+            status_code=404, detail="No group members found!"
+        )

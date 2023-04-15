@@ -60,9 +60,15 @@ async def get_user_by_id(
     else:
         raise HTTPException(
             status_code=400,
-            detail="id not provided"
+            detail="user id not provided"
         )
-    return user_data
+    if user_data:
+        return user_data
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail = "No user found!"
+        )
 
 async def create_user(
         request_model_data: user_request_model.CreateUser,
